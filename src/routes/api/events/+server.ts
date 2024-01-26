@@ -16,7 +16,7 @@ export async function POST(event) {
     .from("events")
     .insert(body);
   if (err) {
-    console.log(err);
+    //console.log(err);
     return json({
       status: 500,
       message: "Server error. Please try again later",

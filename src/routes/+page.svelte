@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.postcss';
 	import ChangeTable from '$lib/components/ChangeTable.svelte';
+	import { updateTrigger } from '$lib/store';
 
 	let modal: HTMLDivElement;
 
@@ -47,9 +48,13 @@
 
 		const response = await fetch('/api/events/', { method: 'POST', body });
 		const res = await response.json();
-		console.log(res);
+		if (res.status === 201) {
+			updateTrigger.update((n) => n + 1); // Increment the trigger to indicate an update
+		}
 		closeModal();
-		// TODO: Refresh the table & fuelTotal
+		change = '';
+		platenumber = '';
+		name = '';
 	};
 </script>
 
