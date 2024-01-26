@@ -5,7 +5,7 @@
 	let modal: HTMLDivElement;
 
 	let platenumber = '';
-	let change: Number;
+	let change;
 	let name = '';
 	let fuelTotal: number;
 	let mode: '+' | '-';
@@ -26,6 +26,9 @@
 	};
 
 	const makeChange = async () => {
+		change = change.match(/\d/g);
+		change = change.join('');
+
 		const obj = {
 			platenumber,
 			change,
