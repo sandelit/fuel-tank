@@ -2,14 +2,18 @@
 	import '../app.postcss';
 	import ChangeTable from '$lib/components/ChangeTable.svelte';
 	import { updateTrigger } from '$lib/store';
+	import { initializeStores, type ToastStore } from '@skeletonlabs/skeleton';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+
+	const toastStore = getToastStore();
 
 	let modal: HTMLDivElement;
-
 	let platenumber = '';
 	let change;
 	let name = '';
 	let fuelTotal: number;
 	let mode: '+' | '-';
+	let visible = false;
 
 	const updateTotal = (value) => {
 		fuelTotal = value;
@@ -18,12 +22,14 @@
 	const openModal = () => {
 		modal.classList.remove('hidden');
 		platenumber = '';
-		change;
+		change = null;
 		name = '';
 	};
 
 	const closeModal = () => {
 		modal.classList.add('hidden');
+		(platenumber = ''), (change = null);
+		name = '';
 	};
 
 	const makeChange = async () => {
@@ -40,8 +46,25 @@
 
 		if (mode === '+') {
 			obj.total = Number(fuelTotal) + Number(change);
+
+			if (obj.total > 1000) {
+				const t: ToastStore = {
+					message: 'Tanken kan inte ha mer än 1000L',
+					background: 'variant-filled-error'
+				};
+				toastStore.trigger(t);
+				return;
+			}
 		} else {
 			obj.total = Number(fuelTotal) - Number(change);
+			if (obj.total < 0) {
+				const t: ToastStore = {
+					message: 'Tanken kan inte ha mindre än 0L',
+					background: 'variant-filled-error'
+				};
+				toastStore.trigger(t);
+				return;
+			}
 		}
 
 		const body = JSON.stringify(obj);
@@ -71,14 +94,14 @@
 			on:click={() => {
 				openModal();
 				mode = '+';
-			}}>Lägg till</button
+			}}>Fyll tanken</button
 		>
 		<button
 			class="btn variant-filled font-bold"
 			on:click={() => {
 				openModal();
 				mode = '-';
-			}}>Ta bort</button
+			}}>Tanka bil</button
 		>
 	</div>
 
@@ -88,7 +111,7 @@
 		<div class="relative top-20 mx-auto p-8 border w-96 shadow-lg rounded-md bg-surface-900">
 			<form id="myForm" class="flex flex-col gap-6 mb-6">
 				<input bind:value={platenumber} class="input" type="text" required placeholder="Reg. Nr." />
-				<input bind:value={change} class="input" type="text" placeholder="Ändring" />
+				<input bind:value={change} class="input" type="text" placeholder="Mängd" />
 				<input bind:value={name} class="input" type="text" placeholder="Namn" />
 
 				<div class="flex justify-center gap-4">
