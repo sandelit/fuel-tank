@@ -81,7 +81,7 @@
 	};
 </script>
 
-<main class="container flex flex-col items-center justify-items-center">
+<main class="flex flex-col items-center justify-items-center">
 	{#if fuelTotal}
 		<h1 class="h1 text-5xl text-center mt-8">{fuelTotal} / 1000 L</h1>
 	{:else}
