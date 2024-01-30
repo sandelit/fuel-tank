@@ -105,6 +105,12 @@
 		>
 	</div>
 
+	<div>
+		<p class="text-xl my-8">
+			Slut på 98-soppa? Ring <a href="tel:525507" class="anchor">525507</a> /
+			<a href="tel:525516" class="anchor">525516</a>
+		</p>
+	</div>
 	<ChangeTable {updateTotal} />
 
 	<div bind:this={modal} id="myModal" class="hidden fixed overflow-y-auto h-full w-full">
