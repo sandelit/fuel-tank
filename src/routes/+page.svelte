@@ -14,6 +14,7 @@
 	let fuelTotal: number;
 	let mode: '+' | '-';
 	let visible = false;
+  const MAX_FUEL = 1200;
 
 	const updateTotal = (value) => {
 		fuelTotal = value;
@@ -47,9 +48,9 @@
 		if (mode === '+') {
 			obj.total = Number(fuelTotal) + Number(change);
 
-			if (obj.total > 1000) {
+			if (obj.total > MAX_FUEL) {
 				const t: ToastStore = {
-					message: 'Tanken kan inte ha mer än 1000L',
+					message: 'Tanken kan inte ha mer än 1200L',
 					background: 'variant-filled-error'
 				};
 				toastStore.trigger(t);
@@ -83,7 +84,7 @@
 
 <main class="flex flex-col items-center justify-items-center">
 	{#if fuelTotal}
-		<h1 class="h1 text-5xl text-center mt-8">{fuelTotal} / 1000 L</h1>
+		<h1 class="h1 text-5xl text-center mt-8">{fuelTotal} / {MAX_FUEL} L</h1>
 	{:else}
 		<div class="mt-8"></div>
 	{/if}

@@ -4,7 +4,9 @@ import { supabaseClient } from "$lib/supabase";
 export async function GET(event) {
   const { data, error } = await supabaseClient
     .from("events")
-    .select("*");
+    .select("*")
+    .order("id", { ascending: false })
+    .limit(50);
 
   return json(data);
 }
